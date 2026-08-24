@@ -4,12 +4,27 @@ Build the Skate 3 recompilation for iOS **from your own disc image**, on your
 own Mac, signed with your own Apple ID, installed on your own iPhone.
 
 ```
+# 1. Get the source (about 1 GB, and slow - it carries the recompiler's data)
+mkdir -p ~/skate3 && cd ~/skate3
+git clone --branch ios-port --recurse-submodules \
+    https://github.com/andrewnakas/SK8-Engine.git skate3recomp-dev
+
+# 2. Get this tool
+git clone https://github.com/andrewnakas/skate3-ios-setup.git
+cd skate3-ios-setup
+
+# 3. Build and install, from your own disc image
 ./skate3-setup.sh --iso ~/Downloads/skate3.iso \
                   --title-update ~/Downloads/TU_12K2276_000000C000000.00000000000O3
 ```
 
-That is the whole thing. It checks your tools, extracts your disc image,
-recompiles it, builds the app, signs it, and installs it.
+Step 3 is the whole thing: it checks your tools, extracts your disc image,
+recompiles it, builds the app, signs it with your Apple ID, and installs it on
+your phone.
+
+`--recurse-submodules` matters - the runtime lives in a submodule and the build
+will not configure without it. If you already cloned without it, run
+`git submodule update --init --recursive` inside `skate3recomp-dev`.
 
 ## What this ships, and what it does not
 
