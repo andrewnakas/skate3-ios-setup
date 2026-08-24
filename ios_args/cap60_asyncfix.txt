@@ -1,0 +1,99 @@
+# skate3 iOS launch-argument overrides.
+# One argument per line; "--" optional; # starts a comment.
+# Applied overrides are listed in Documents/stderr.log.
+
+# TESTING: was true, which is what keeps the encode - and MoltenVK's blocking
+# wait for a CAMetalDrawable - on whichever thread called vkQueueSubmit. The
+# hang dump caught the main thread parked in getCAMetalDrawable() inside
+# MVKQueue::submit with the command processor idle on an empty ring, which is
+# that wait not returning. False moves both onto MoltenVK's own queue thread.
+vulkan_mvk_synchronous_queue_submits=false
+
+# --- Xenos texture cache budget -------------------------------------------
+texture_cache_memory_limit_soft=320
+texture_cache_memory_limit_hard=640
+texture_cache_memory_limit_soft_lifetime=30
+texture_cache_memory_limit_render_to_texture=24
+
+# --- Frame cap -------------------------------------------------------------
+# TESTING 60. The last attempt at this decayed - 57 fps, then 54, 29, 4.8, 0.2 -
+# because twice the frame rate is twice the decode and upload on a phone that
+# had no headroom at 30. Two things changed since: the audio worker no longer
+# spins on a performance core, and the drawable wait is off the main thread.
+# Headroom now reads 1205MB with the texture store at 251 of 288MB, so the
+# residency this needs may actually be there. Revert to 30 if it decays.
+skate3_guest_fps_cap=60
+
+# --- Ring read pointer -----------------------------------------------------
+gpu_rptr_writeback_mid_batch=true
+
+# --- Guest sampling profiler ----------------------------------------------
+skate3_guest_profile=true
+
+# --- Residency experiment --------------------------------------------------
+# The audio worker used to spin on a whole performance core; with that gone,
+# decode runs ~4x faster and the stores reach their budget in seconds rather
+# than minutes. These halve the resident set to test whether the collapse is
+# residency (compression stalls, eviction storms) or something else.
+skate3_native_render_scene_tex_store_mb=224
+skate3_native_render_scene_mesh_store_mb=160
+
+# --- Drawable-timeout soft retry: ON, and it now just drops a frame --------
+# The first attempt at this REBUILT THE SWAPCHAIN and was worse than the crash:
+# a 58.9 fps / p50 16.7 / p95 17.2ms window - the best ever recorded - slid to
+# 43.3, 27.3, 8.4 fps behind two rebuilds, because tearing the swapchain down
+# under an in-flight CAMetalDrawable degrades MoltenVK rather than recovering
+# it. It now simply presents nothing that frame and acquires again on the next,
+# which is correct: nothing was acquired, so there is nothing to rebuild.
+# MoltenVK reports VK_ERROR_DEVICE_LOST when its CAMetalDrawable wait expires,
+# and that used to abort the process - it is the crash caught on 2026-08-24
+# (abort under PaintFromUIThread, fault inside presentCAMetalDrawable). Up to
+# three per 30s window now drop the frame and rebuild the swapchain instead.
+# Past the budget a real loss is still reported, so a dead device still gets
+# diagnosed. 0 restores the old fatal behaviour.
+vulkan_device_lost_soft_retries=8
+
+# --- Base-mip shift left OFF ----------------------------------------------
+# skate3_native_render_scene_tex_base_mip_px=512 measured slower in play, so
+# it stays off here. Suspicion is payload-probe churn rather than the shift
+# itself; see the skate3-ios-perf memory. cap60_basemip512.txt turns it on.
+skate3_native_render_scene_tex_base_mip_px=0
+
+# --- Boot straight into a map (2026-08-24) --------------------------------
+# The warp system is always active; this picks where a fresh boot lands. Change
+# the value and relaunch - no rebuild. Stock worlds available on disc:
+#
+#   DIST_University          DIST_DownTown            DIST_Industrial
+#   DIST_MegaPark            DIST_MaloofMoneyCup      DIST_SkateSchool
+#   DIST_BlackBoxPark        DIST_StartPark
+#   DIST_DownTownSkatePark   DIST_IndustrialSkatePark
+#
+# A custom pack copied into Documents/game uses its own DIST_ name, e.g.
+# DIST_DMJumpline.
+skate3_warp_boot_world=DIST_University
+
+# --- Map picker ------------------------------------------------------------
+# Opens the level picker as soon as gameplay starts, so a session begins at
+# "choose a map" rather than booting straight into one. There is no keyboard on
+# a phone and the picker's Backtick/F7 bindings are unreachable, so without
+# this it can never be opened.
+#
+# The list is built at boot from the game folder: the stock districts, plus any
+# DIST_<Name> directory you copy in alongside them. Choosing a map writes the
+# choice back into this file and asks you to reopen the app - an app cannot
+# relaunch itself, and switching in-session lands the wrong world.
+
+# --- Custom maps cost more memory than the stock districts (2026-08-24) -----
+# A custom pack ran at a 1109MB footprint with 239MB compressed, against
+# ~1030MB/105MB on stock maps, and then faulted inside MoltenVK's presentation
+# completion block. Compression cost is what this port's hitching has always
+# tracked, so the stores and the Xenos cache are trimmed here to buy the
+# headroom back. Frame rate on the custom map was 59.7fps before the fault, so
+# there is room to give some up.
+
+# --- Async submits + deferred swapchain destroy (2026-08-24) ---------------
+# Synchronous submits stopped the crash but halved the frame rate: the encode
+# moves onto the render thread. So async is back, with the actual bug fixed
+# instead - a retired swapchain is now held for three frames rather than
+# destroyed the moment it is replaced, so a presentation-completion block Metal
+# has yet to run cannot fault on images freed underneath it.
