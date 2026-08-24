@@ -1,0 +1,12 @@
+# Never commit anything derived from a disc image.
+*.iso
+*.xex
+*.xexp
+TU_*
+game/
+generated/
+out/
+.setup-tools/
+*.app/
+*.ipa
+*.mobileprovision

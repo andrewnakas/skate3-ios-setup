@@ -1,0 +1,54 @@
+# skate3 iOS launch-argument overrides.
+# One argument per line; "--" optional; # starts a comment.
+# Applied overrides are listed in Documents/stderr.log.
+
+# TESTING: was true, which is what keeps the encode - and MoltenVK's blocking
+# wait for a CAMetalDrawable - on whichever thread called vkQueueSubmit. The
+# hang dump caught the main thread parked in getCAMetalDrawable() inside
+# MVKQueue::submit with the command processor idle on an empty ring, which is
+# that wait not returning. False moves both onto MoltenVK's own queue thread.
+vulkan_mvk_synchronous_queue_submits=false
+
+# --- Xenos texture cache budget -------------------------------------------
+texture_cache_memory_limit_soft=384
+texture_cache_memory_limit_hard=768
+texture_cache_memory_limit_soft_lifetime=30
+texture_cache_memory_limit_render_to_texture=24
+
+# --- Frame cap -------------------------------------------------------------
+# TESTING 60. The last attempt at this decayed - 57 fps, then 54, 29, 4.8, 0.2 -
+# because twice the frame rate is twice the decode and upload on a phone that
+# had no headroom at 30. Two things changed since: the audio worker no longer
+# spins on a performance core, and the drawable wait is off the main thread.
+# Headroom now reads 1205MB with the texture store at 251 of 288MB, so the
+# residency this needs may actually be there. Revert to 30 if it decays.
+skate3_guest_fps_cap=60
+
+# --- Ring read pointer -----------------------------------------------------
+gpu_rptr_writeback_mid_batch=true
+
+# --- Guest sampling profiler ----------------------------------------------
+skate3_guest_profile=true
+
+# --- Residency experiment --------------------------------------------------
+# The audio worker used to spin on a whole performance core; with that gone,
+# decode runs ~4x faster and the stores reach their budget in seconds rather
+# than minutes. These halve the resident set to test whether the collapse is
+# residency (compression stalls, eviction storms) or something else.
+skate3_native_render_scene_tex_store_mb=288
+skate3_native_render_scene_mesh_store_mb=224
+
+# --- Drawable-timeout device loss is no longer fatal (2026-08-24) ----------
+# MoltenVK reports VK_ERROR_DEVICE_LOST when its CAMetalDrawable wait expires,
+# and that used to abort the process - it is the crash caught on 2026-08-24
+# (abort under PaintFromUIThread, fault inside presentCAMetalDrawable). Up to
+# three per 30s window now drop the frame and rebuild the swapchain instead.
+# Past the budget a real loss is still reported, so a dead device still gets
+# diagnosed. 0 restores the old fatal behaviour.
+vulkan_device_lost_soft_retries=3
+
+# --- Base-mip shift left OFF ----------------------------------------------
+# skate3_native_render_scene_tex_base_mip_px=512 measured slower in play, so
+# it stays off here. Suspicion is payload-probe churn rather than the shift
+# itself; see the skate3-ios-perf memory. cap60_basemip512.txt turns it on.
+skate3_native_render_scene_tex_base_mip_px=0
