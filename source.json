@@ -1,0 +1,29 @@
+{
+  "name": "Skate 3 Recompiled",
+  "identifier": "com.skate3recomp.source",
+  "apps": [
+    {
+      "name": "Skate 3",
+      "bundleIdentifier": "com.skate3recomp.skate3",
+      "developerName": "Skate 3 Recompiled",
+      "subtitle": "Bring your own copy of the game.",
+      "localizedDescription": "A static recompilation of Skate 3 for iOS, rendering through Vulkan on MoltenVK.\n\nYOU MUST SUPPLY THE GAME. This app contains no game content. After installing, copy your own game files into the app's Documents folder over Finder or the Files app. Without them it will not start.\n\nOn-screen touch controls appear when no controller is attached; MFi and Bluetooth controllers are picked up automatically.\n\nRuns at 60fps on an iPhone 13 mini. Requires iOS 16.0 or later.",
+      "iconURL": "",
+      "tintColor": "1F1F1F",
+      "category": "games",
+      "screenshots": [],
+      "versions": [
+        {
+          "version": "2.0.0",
+          "date": "2026-08-24",
+          "size": 32897980,
+          "downloadURL": "https://github.com/andrewnakas/skate3-ios-setup/releases/download/v2.0.0/skate3.ipa",
+          "minOSVersion": "16.0",
+          "localizedDescription": "Sustained 60fps, on-screen touch controls, and no game content in the bundle."
+        }
+      ],
+      "appPermissions": { "entitlements": [], "privacy": {} }
+    }
+  ],
+  "news": []
+}

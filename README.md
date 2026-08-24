@@ -26,6 +26,26 @@ your phone.
 will not configure without it. If you already cloned without it, run
 `git submodule update --init --recursive` inside `skate3recomp-dev`.
 
+## Two ways to install
+
+**Sideload the prebuilt app** (no Mac needed). Add this source in AltStore or
+SideStore:
+
+```
+https://raw.githubusercontent.com/andrewnakas/skate3-ios-setup/master/source.json
+```
+
+Or download `skate3.ipa` from [Releases](../../releases) and sideload it with
+AltStore, SideStore or Sideloadly. The `.ipa` is unsigned - you sign it with
+your own Apple ID, which is what those tools do.
+
+Then supply the game: launch it once so the app's folder appears, and copy your
+own extracted game data into **Files → On My iPhone → Skate 3 → game**. Without
+it the app will not start.
+
+**Or build it yourself from your own disc image** — the rest of this README.
+Needs a Mac, gives you the recompiler and every knob.
+
 ## What this ships, and what it does not
 
 **This repository contains no game code and no game content.** It is a build
@@ -157,11 +177,19 @@ RAM but an unusually fat translation unit can still spike.
 **The app launches to a black screen** — game data is not staged yet. See
 "Staging game data" above.
 
-## Why there is no downloadable IPA
+## About the prebuilt IPA
 
-Because the recompiled binary contains the game's code. A prebuilt IPA would be
-redistribution of it, which is exactly what building locally avoids. The
-Ship of Harkinian and Zelda 64: Recompiled projects ship binaries with no game
-content for the same reason — their engine exists separately from the game.
-A static recompilation has no such separation: the recompiled functions *are*
-the game, so the build has to happen on your machine, from your copy.
+The `.ipa` contains the recompiled game code and **no game content** — no
+assets, no title-update data, nothing of the publisher's. You supply all of
+that from a copy you own, after installing. This is the same shape as
+[Zelda 64: Recompiled](https://github.com/Zelda64Recomp/Zelda64Recomp), which
+ships prebuilt binaries and has you provide your own ROM.
+
+Recompilation translates the game's code to run natively, which is why it holds
+60fps where an emulator could not. Translating a program you own to run on
+different hardware is well-established as legal in the US; distributing that
+translation is the less settled part, which is why the build-it-yourself path
+exists alongside the download.
+
+Building locally is the more conservative option, and it is the one to use if
+you would rather every step happen on your own machine.
