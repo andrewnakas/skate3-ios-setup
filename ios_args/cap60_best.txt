@@ -38,21 +38,20 @@ skate3_guest_profile=true
 skate3_native_render_scene_tex_store_mb=288
 skate3_native_render_scene_mesh_store_mb=224
 
-# --- Drawable-timeout soft retry: OFF, it makes things WORSE (2026-08-24) --
-# Measured: a 58.9 fps / p50 16.7ms / p95 17.2ms window - the best this port
-# has ever recorded - was followed by two soft retries and then a slide to
-# 43.3, 27.3, 8.4 fps with p50 climbing 16.7 -> 63.9ms. Rebuilding the
-# swapchain under an in-flight CAMetalDrawable leaves MoltenVK degraded (and
-# eventually faults inside its own presentation-completion block). Until the
-# recovery drains in-flight presentations before releasing the old swapchain,
-# a hard failure is better than a slow one. Was 3.
+# --- Drawable-timeout soft retry: ON, and it now just drops a frame --------
+# The first attempt at this REBUILT THE SWAPCHAIN and was worse than the crash:
+# a 58.9 fps / p50 16.7 / p95 17.2ms window - the best ever recorded - slid to
+# 43.3, 27.3, 8.4 fps behind two rebuilds, because tearing the swapchain down
+# under an in-flight CAMetalDrawable degrades MoltenVK rather than recovering
+# it. It now simply presents nothing that frame and acquires again on the next,
+# which is correct: nothing was acquired, so there is nothing to rebuild.
 # MoltenVK reports VK_ERROR_DEVICE_LOST when its CAMetalDrawable wait expires,
 # and that used to abort the process - it is the crash caught on 2026-08-24
 # (abort under PaintFromUIThread, fault inside presentCAMetalDrawable). Up to
 # three per 30s window now drop the frame and rebuild the swapchain instead.
 # Past the budget a real loss is still reported, so a dead device still gets
 # diagnosed. 0 restores the old fatal behaviour.
-vulkan_device_lost_soft_retries=0
+vulkan_device_lost_soft_retries=8
 
 # --- Base-mip shift left OFF ----------------------------------------------
 # skate3_native_render_scene_tex_base_mip_px=512 measured slower in play, so

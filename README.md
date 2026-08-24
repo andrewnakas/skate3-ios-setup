@@ -31,6 +31,7 @@ here will find, download, or provide one.
 | **Disk** | ~12GB free: ~6GB extracted game data, ~300MB generated sources, ~2GB build. |
 | **RAM** | 8GB is enough. The script picks a job count from your RAM; the generated translation units are large and over-parallelising will thrash a small machine. |
 | **Your Skate 3 disc image** | Plus its title update package. |
+| **A controller** | Optional — on-screen touch controls appear when none is attached. |
 | **Time** | 30–90 minutes on the first run, depending on the machine. Later runs are incremental. |
 
 ## The title update is not optional
@@ -60,6 +61,17 @@ extended virtual addressing turns out not to be needed on an A15.
 
 If Xcode will not mint a profile for your team, delete both keys from
 `cmake/ios/skate3.entitlements` rather than buying an account.
+
+## Playing without a controller
+
+With no controller attached the game shows translucent on-screen controls: two
+thumbsticks, the face buttons, shoulders, triggers, start/back and a d-pad.
+They brighten under a thumb and disappear the moment you connect a real
+controller, coming back when you disconnect it. Turn them off with
+`touch_controls=false` in `ios_args.txt`.
+
+MFi and most Bluetooth controllers pair through iOS Settings and are picked up
+automatically.
 
 ## Staging game data
 
