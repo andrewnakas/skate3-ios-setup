@@ -14,15 +14,18 @@
       "screenshots": [],
       "versions": [
         {
-          "version": "2.1.0",
+          "version": "2.1.1",
           "date": "2026-08-24",
-          "size": 32957023,
-          "downloadURL": "https://github.com/andrewnakas/skate3-ios-setup/releases/download/v2.1.0/skate3.ipa",
+          "size": 32959473,
+          "downloadURL": "https://github.com/andrewnakas/skate3-ios-setup/releases/download/v2.1.1/skate3.ipa",
           "minOSVersion": "16.0",
-          "localizedDescription": "Sustained 60fps, on-screen touch controls, and no game content in the bundle."
+          "localizedDescription": "Fixes the crash when a phone call or other memory pressure arrives, and the hang from moving quickly through the start menus."
         }
       ],
-      "appPermissions": { "entitlements": [], "privacy": {} }
+      "appPermissions": {
+        "entitlements": [],
+        "privacy": {}
+      }
     }
   ],
   "news": []
