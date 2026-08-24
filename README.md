@@ -63,23 +63,33 @@ That folder should end up containing `default.xex` and the `data/` directory —
 about 6 GB. If you built with the setup script instead, it extracted this for
 you into `~/skate3/game`; copy that folder's contents across.
 
-**2. Title Update 3 — the app can fetch this for you.** Skate 3 shipped patches,
-and the recompilation is built against TU3 specifically (title 454108E6,
-3.0.0.0 → 3.0.3.0). The app has a built-in installer that downloads it from
-Xbox Unity, the community archive of Xbox 360 title updates, and verifies it
-against a known SHA-256 before using it. The default URL is the
-`skate3_title_update_url` setting:
+**2. Title Update 3 — download it on a computer, then copy it in.** Skate 3
+shipped patches, and the recompilation is built against TU3 specifically (title
+454108E6, 3.0.0.0 → 3.0.3.0). The game will not run without it.
+
+**The in-app download does not work on iOS** — there is no way to shell out to a
+downloader from inside the app, so it reports an error and asks you to copy the
+file in. Fetch it on a computer instead, from the Xbox Unity archive of Xbox
+360 title updates:
 
 ```
 https://xboxunity.net/Resources/Lib/TitleUpdate.php?tuid=21774
 ```
 
-If you already have the `TU_12K2276_000000C000000.00000000000O3` package, you
-can point the installer at it instead of downloading.
+You want the file named `TU_12K2276_000000C000000.00000000000O3`
+(about 1.7 MB). Copy it into the app's Documents folder next to `game`, the
+same way you staged the disc:
 
-The distinction matters: the disc is yours and has to come from your own copy;
-the title update is a patch the app can retrieve. Neither ships in this
-repository or in the `.ipa`.
+```
+Files → On My iPhone → Skate 3
+```
+
+Then open the app's title-update installer and point it at the file. It checks
+the package against a known SHA-256 before using it, so a truncated or wrong
+download is caught rather than producing a mysterious crash later.
+
+Neither the disc nor the title update ships in this repository or in the
+`.ipa`.
 
 ## What this ships, and what it does not
 
