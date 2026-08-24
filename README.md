@@ -27,7 +27,7 @@ here will find, download, or provide one.
 | **macOS** | The iOS toolchain and code signing only exist here. |
 | **Xcode** | Full Xcode, not just Command Line Tools — the iOS SDK ships only with Xcode. ~15GB. |
 | **Homebrew packages** | `brew install cmake ninja` |
-| **Apple ID** | Free works. See the note on expiry below. |
+| **Apple ID** | Free works — verified, not assumed. See the note below. |
 | **Disk** | ~12GB free: ~6GB extracted game data, ~300MB generated sources, ~2GB build. |
 | **RAM** | 8GB is enough. The script picks a job count from your RAM; the generated translation units are large and over-parallelising will thrash a small machine. |
 | **Your Skate 3 disc image** | Plus its title update package. |
@@ -49,10 +49,17 @@ built on your machine from your disc.
   [SideStore](https://sidestore.io) / AltStore to refresh it automatically.
 - **Paid account** ($99/yr): the same, but yearly.
 
-The app requests two entitlements: `extended-virtual-addressing` (the guest
-mapping reserves 4.5GB of address space) and `increased-memory-limit`. Whether
-a free personal team can sign with these is worth confirming for your own
-account before planning around it.
+**You do not need a paid account for the memory entitlements.** The build
+requests `extended-virtual-addressing` and `increased-memory-limit`, neither of
+which a free personal team can be granted — but a build signed *without* them
+installs, launches and plays. That was verified on device by re-signing the
+same binary with both keys stripped: it ran at a 463MB footprint against
+1634MB of headroom. Expanding opaque DXT1 to RGB565 brought the resident set
+under the default jetsam ceiling, so the increased limit stopped mattering, and
+extended virtual addressing turns out not to be needed on an A15.
+
+If Xcode will not mint a profile for your team, delete both keys from
+`cmake/ios/skate3.entitlements` rather than buying an account.
 
 ## Staging game data
 
@@ -68,7 +75,8 @@ and are read at startup, so tuning needs no rebuild. Presets are in
 `../ios_args/`:
 
 - `cap60_best.txt` — current best. On an iPhone 13 mini this runs roughly
-  49–51 fps with a 16.9ms median frame.
+  49–51 fps with a 16.9ms median frame, and has touched 58.9 fps with a 17.2ms
+  95th percentile in a clean window.
 - `cap60_phase12_off.txt` — the same build with the descriptor-set recycling
   and RGB565 texture path disabled, for A/B comparison.
 - `known_good_30fps.txt` — a conservative 30fps cap.
