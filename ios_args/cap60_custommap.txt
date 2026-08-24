@@ -10,8 +10,8 @@
 vulkan_mvk_synchronous_queue_submits=false
 
 # --- Xenos texture cache budget -------------------------------------------
-texture_cache_memory_limit_soft=384
-texture_cache_memory_limit_hard=768
+texture_cache_memory_limit_soft=320
+texture_cache_memory_limit_hard=640
 texture_cache_memory_limit_soft_lifetime=30
 texture_cache_memory_limit_render_to_texture=24
 
@@ -35,8 +35,8 @@ skate3_guest_profile=true
 # decode runs ~4x faster and the stores reach their budget in seconds rather
 # than minutes. These halve the resident set to test whether the collapse is
 # residency (compression stalls, eviction storms) or something else.
-skate3_native_render_scene_tex_store_mb=288
-skate3_native_render_scene_mesh_store_mb=224
+skate3_native_render_scene_tex_store_mb=224
+skate3_native_render_scene_mesh_store_mb=160
 
 # --- Drawable-timeout soft retry: ON, and it now just drops a frame --------
 # The first attempt at this REBUILT THE SWAPCHAIN and was worse than the crash:
@@ -82,3 +82,11 @@ skate3_warp_boot_world=DIST_University
 # DIST_<Name> directory you copy in alongside them. Choosing a map writes the
 # choice back into this file and asks you to reopen the app - an app cannot
 # relaunch itself, and switching in-session lands the wrong world.
+
+# --- Custom maps cost more memory than the stock districts (2026-08-24) -----
+# A custom pack ran at a 1109MB footprint with 239MB compressed, against
+# ~1030MB/105MB on stock maps, and then faulted inside MoltenVK's presentation
+# completion block. Compression cost is what this port's hitching has always
+# tracked, so the stores and the Xenos cache are trimmed here to buy the
+# headroom back. Frame rate on the custom map was 59.7fps before the fault, so
+# there is room to give some up.
