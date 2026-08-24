@@ -71,3 +71,15 @@ skate3_native_render_scene_tex_base_mip_px=0
 # A custom pack copied into Documents/game uses its own DIST_ name, e.g.
 # DIST_DMJumpline.
 skate3_warp_boot_world=DIST_University
+
+# --- Map picker ------------------------------------------------------------
+# Opens the level picker as soon as gameplay starts, so a session begins at
+# "choose a map" rather than booting straight into one. There is no keyboard on
+# a phone and the picker's Backtick/F7 bindings are unreachable, so without
+# this it can never be opened.
+#
+# The list is built at boot from the game folder: the stock districts, plus any
+# DIST_<Name> directory you copy in alongside them. Choosing a map writes the
+# choice back into this file and asks you to reopen the app - an app cannot
+# relaunch itself, and switching in-session lands the wrong world.
+skate3_loader_open_picker=true
