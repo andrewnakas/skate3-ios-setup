@@ -39,12 +39,47 @@ Or download `skate3.ipa` from [Releases](../../releases) and sideload it with
 AltStore, SideStore or Sideloadly. The `.ipa` is unsigned - you sign it with
 your own Apple ID, which is what those tools do.
 
-Then supply the game: launch it once so the app's folder appears, and copy your
-own extracted game data into **Files → On My iPhone → Skate 3 → game**. Without
-it the app will not start.
+Then supply the game — see **Supplying the game** below. Without it the app
+will not start.
 
 **Or build it yourself from your own disc image** — the rest of this README.
 Needs a Mac, gives you the recompiler and every knob.
+
+## Supplying the game
+
+The app ships no game content. Two pieces have to come from you, and they are
+not the same kind of thing:
+
+**1. The game itself — you must supply this.** Dump your own Skate 3 disc to an
+ISO and extract it. Nothing here will find, download, or provide one.
+
+Launch the app once so its folder appears, then copy the extracted files into:
+
+```
+Files → On My iPhone → Skate 3 → game
+```
+
+That folder should end up containing `default.xex` and the `data/` directory —
+about 6 GB. If you built with the setup script instead, it extracted this for
+you into `~/skate3/game`; copy that folder's contents across.
+
+**2. Title Update 3 — the app can fetch this for you.** Skate 3 shipped patches,
+and the recompilation is built against TU3 specifically (title 454108E6,
+3.0.0.0 → 3.0.3.0). The app has a built-in installer that downloads it from
+Xbox Unity, the community archive of Xbox 360 title updates, and verifies it
+against a known SHA-256 before using it. The default URL is the
+`skate3_title_update_url` setting:
+
+```
+https://xboxunity.net/Resources/Lib/TitleUpdate.php?tuid=21774
+```
+
+If you already have the `TU_12K2276_000000C000000.00000000000O3` package, you
+can point the installer at it instead of downloading.
+
+The distinction matters: the disc is yours and has to come from your own copy;
+the title update is a patch the app can retrieve. Neither ships in this
+repository or in the `.ipa`.
 
 ## What this ships, and what it does not
 
