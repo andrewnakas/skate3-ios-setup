@@ -14,12 +14,12 @@
       "screenshots": [],
       "versions": [
         {
-          "version": "2.1.2",
+          "version": "2.2.0",
           "date": "2026-08-25",
-          "size": 32960472,
-          "downloadURL": "https://github.com/andrewnakas/skate3-ios-setup/releases/download/v2.1.2/skate3.ipa",
+          "size": 32981616,
+          "downloadURL": "https://github.com/andrewnakas/skate3-ios-setup/releases/download/v2.2.0/skate3.ipa",
           "minOSVersion": "16.0",
-          "localizedDescription": "Fixes the crash inside MoltenVK presentation that had been ending sessions, at full frame rate."
+          "localizedDescription": "Custom map packs with a startup chooser, the mission stutter fixed, and the menu hangs fixed."
         }
       ],
       "appPermissions": {
