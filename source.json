@@ -14,12 +14,12 @@
       "screenshots": [],
       "versions": [
         {
-          "version": "2.1.1",
-          "date": "2026-08-24",
-          "size": 32959473,
-          "downloadURL": "https://github.com/andrewnakas/skate3-ios-setup/releases/download/v2.1.1/skate3.ipa",
+          "version": "2.1.2",
+          "date": "2026-08-25",
+          "size": 32960472,
+          "downloadURL": "https://github.com/andrewnakas/skate3-ios-setup/releases/download/v2.1.2/skate3.ipa",
           "minOSVersion": "16.0",
-          "localizedDescription": "Fixes the crash when a phone call or other memory pressure arrives, and the hang from moving quickly through the start menus."
+          "localizedDescription": "Fixes the crash inside MoltenVK presentation that had been ending sessions, at full frame rate."
         }
       ],
       "appPermissions": {
