@@ -14,18 +14,15 @@
       "screenshots": [],
       "versions": [
         {
-          "version": "2.2.0",
-          "date": "2026-08-25",
-          "size": 32981702,
-          "downloadURL": "https://github.com/andrewnakas/skate3-ios-setup/releases/download/v2.2.0/skate3.ipa",
+          "version": "2.3.0",
+          "date": "2026-08-26",
+          "size": 32990283,
+          "downloadURL": "https://github.com/andrewnakas/skate3-ios-setup/releases/download/v2.3.0/skate3.ipa",
           "minOSVersion": "16.0",
-          "localizedDescription": "Custom map packs with a startup chooser, the mission stutter fixed, and the menu hangs fixed."
+          "localizedDescription": "Sustained 60fps, on-screen touch controls, and no game content in the bundle."
         }
       ],
-      "appPermissions": {
-        "entitlements": [],
-        "privacy": {}
-      }
+      "appPermissions": { "entitlements": [], "privacy": {} }
     }
   ],
   "news": []
