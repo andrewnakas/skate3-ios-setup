@@ -16,7 +16,7 @@
         {
           "version": "2.3.0",
           "date": "2026-08-26",
-          "size": 32990283,
+          "size": 32996465,
           "downloadURL": "https://github.com/andrewnakas/skate3-ios-setup/releases/download/v2.3.0/skate3.ipa",
           "minOSVersion": "16.0",
           "localizedDescription": "Sustained 60fps, on-screen touch controls, and no game content in the bundle."
