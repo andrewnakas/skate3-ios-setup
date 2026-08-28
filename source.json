@@ -6,8 +6,8 @@
       "name": "Skate 3",
       "bundleIdentifier": "com.skate3recomp.skate3",
       "developerName": "Skate 3 Recompiled",
-      "subtitle": "Bring your own copy of the game.",
-      "localizedDescription": "A static recompilation of Skate 3 for iOS, rendering through Vulkan on MoltenVK.\n\nYOU MUST SUPPLY THE GAME. This app contains no game content. After installing, copy your own game files into the app's Documents folder over Finder or the Files app. Without them it will not start.\n\nOn-screen touch controls appear when no controller is attached; MFi and Bluetooth controllers are picked up automatically.\n\nRuns at 60fps on an iPhone 13 mini. Requires iOS 16.0 or later.",
+      "subtitle": "Locked 60fps. Bring your own copy of the game.",
+      "localizedDescription": "A static recompilation of Skate 3 for iOS, rendering through Vulkan on MoltenVK. Runs at a locked 60fps on an iPhone 13 mini (A15): median frame 16.7ms, 95th percentile 16.8-17.8ms.\n\nYOU MUST SUPPLY THE GAME. This app contains no game content and will not start without it.\n\nAFTER INSTALLING:\n1. Connect your iPhone to a computer and open Finder > your iPhone > Files > Skate 3 (on Windows, iTunes > File Sharing).\n2. Drop in a 'game' folder containing your own disc files. That is about 6GB, so allow a few minutes.\n3. Add Title Update 3, the free update EA published on Xbox Live - it is not on the disc and the game will not run without it. iOS apps cannot download it themselves: fetch it on a computer from xboxunity.net (about 1.7MB) and copy it in the same way.\n\nThe setup screens walk you through steps 2 and 3.\n\nOn-screen touch controls appear when no controller is attached; MFi and Bluetooth controllers are picked up automatically. Press Start + Select together for a performance menu that shows your frame rate and what is limiting it.\n\nRequires iOS 16.0 or later.",
       "iconURL": "",
       "tintColor": "1F1F1F",
       "category": "games",
@@ -16,10 +16,10 @@
         {
           "version": "2.4.0",
           "date": "2026-08-27",
-          "size": 31796747,
+          "size": 31797033,
           "downloadURL": "https://github.com/andrewnakas/skate3-ios-setup/releases/download/v2.4.0/skate3.ipa",
           "minOSVersion": "16.0",
-          "localizedDescription": "A performance menu on Start + Select that shows what is limiting your frame rate, more controller options, and setup that explains how to get the game onto your phone."
+          "localizedDescription": "A performance menu on Start + Select that shows your frame rate and what is limiting it, more controller options (vibration strength, deadzones, invert Y, rebindable shortcuts), and setup that explains how to get the game and the title update onto your phone. Supersedes all earlier releases."
         },
         {
           "version": "2.3.0",

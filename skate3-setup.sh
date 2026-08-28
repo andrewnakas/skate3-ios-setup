@@ -33,6 +33,8 @@ TEAM_ID="${TEAM_ID:-}"
 BUNDLE_ID="${BUNDLE_ID:-}"
 JOBS=""
 SKIP_INSTALL=0
+IPA_ONLY=0
+IPA_OUT=""
 MVK_VERSION="v1.4.2"
 
 say()  { printf '\033[1;36m==>\033[0m %s\n' "$*"; }
@@ -51,6 +53,10 @@ usage: skate3-setup.sh [options]
   --bundle-id ID         App bundle id (default com.<teamid-lower>.skate3)
   --jobs N               Parallel compile jobs (default: picked from RAM)
   --no-install           Build and sign only; do not touch a device
+  --ipa                  Build and package an unsigned .ipa for sideloading
+                         (AltStore, SideStore, Sideloadly). Implies
+                         --no-install and needs no Apple ID or device.
+  --ipa-out PATH         Where to write it (default: <root>/skate3.ipa)
   -h, --help             This message
 
 You supply the disc image. This tool never downloads game content.
@@ -66,6 +72,8 @@ while [ $# -gt 0 ]; do
     --bundle-id) BUNDLE_ID="${2:?}"; shift 2 ;;
     --jobs) JOBS="${2:?}"; shift 2 ;;
     --no-install) SKIP_INSTALL=1; shift ;;
+    --ipa) IPA_ONLY=1; SKIP_INSTALL=1; shift ;;
+    --ipa-out) IPA_OUT="${2:?}"; IPA_ONLY=1; SKIP_INSTALL=1; shift 2 ;;
     -h|--help) usage ;;
     *) die "unknown option: $1 (try --help)" ;;
   esac
@@ -205,12 +213,19 @@ fi
 # ---------------------------------------------------------------------------
 say "Checking code signing"
 
+# An unsigned .ipa is re-signed by whoever sideloads it, and make-ipa.sh strips
+# any signature this machine applied anyway. So --ipa needs neither a
+# certificate nor a team id, and demanding them would turn "package a build for
+# someone else" into "first go create an Apple developer account".
 IDENTITY=$(security find-identity -v -p codesigning 2>/dev/null \
            | awk '/Apple Development|iPhone Developer/ {print $2; exit}')
-[ -n "$IDENTITY" ] || die "No code signing identity in your keychain.
+if [ -z "$IDENTITY" ] && [ "$IPA_ONLY" -eq 0 ]; then
+  die "No code signing identity in your keychain.
      Open Xcode > Settings > Accounts, sign in with your Apple ID, then
      Manage Certificates > + > Apple Development.
-     A free Apple ID works; builds then expire after 7 days."
+     A free Apple ID works; builds then expire after 7 days.
+     To package an unsigned .ipa instead, re-run with --ipa."
+fi
 
 if [ -z "$TEAM_ID" ]; then
   # NOT from the certificate name: on a modern "Apple Development: Name (XXXX)"
@@ -233,9 +248,11 @@ if [ -z "$TEAM_ID" ]; then
       [ -n "$TEAM_ID" ] && break 2
     done
   done
-  [ -n "$TEAM_ID" ] || die "Could not determine your Team ID.
+  if [ -z "$TEAM_ID" ] && [ "$IPA_ONLY" -eq 0 ]; then
+    die "Could not determine your Team ID.
      Pass --team-id. You can find it at developer.apple.com > Membership,
      or in Xcode > Settings > Accounts (select your team)."
+  fi
 fi
 if [ -z "$BUNDLE_ID" ]; then
   # An already-configured tree keeps the id it was built with: changing it
@@ -244,9 +261,19 @@ if [ -z "$BUNDLE_ID" ]; then
     BUNDLE_ID=$(sed -n 's/^SKATE3_IOS_BUNDLE_ID:STRING=//p' "$BUILD_DIR/CMakeCache.txt" | head -1)
   fi
   # Otherwise derive it from the team, so two people's builds never collide.
-  [ -n "$BUNDLE_ID" ] || BUNDLE_ID="com.$(echo "$TEAM_ID" | tr 'A-Z' 'a-z').skate3"
+  if [ -z "$BUNDLE_ID" ] && [ -n "$TEAM_ID" ]; then
+    BUNDLE_ID="com.$(echo "$TEAM_ID" | tr 'A-Z' 'a-z').skate3"
+  fi
+  # No team at all (--ipa on a machine with no Apple account): a neutral id
+  # that does not pretend to belong to anyone's team. Whoever sideloads it
+  # re-signs, and their tool rewrites this to suit their own account.
+  [ -n "$BUNDLE_ID" ] || BUNDLE_ID="com.skate3recomp.skate3"
 fi
-ok "identity $IDENTITY, team $TEAM_ID, bundle $BUNDLE_ID"
+if [ -n "$IDENTITY" ]; then
+  ok "identity $IDENTITY, team ${TEAM_ID:-none}, bundle $BUNDLE_ID"
+else
+  ok "no signing identity (packaging unsigned), bundle $BUNDLE_ID"
+fi
 
 # ---------------------------------------------------------------------------
 # 6. Configure
@@ -295,7 +322,36 @@ APP="$BUILD_DIR/skate3.app"
 ok "built $APP ($(du -sh "$APP" | cut -f1))"
 
 # ---------------------------------------------------------------------------
-# 8. Sign and install
+# 8. Package an .ipa (--ipa)
+# ---------------------------------------------------------------------------
+if [ "$IPA_ONLY" -eq 1 ]; then
+  say "Packaging .ipa"
+  MAKE_IPA=$(helper make-ipa.sh)
+  [ -n "$MAKE_IPA" ] || die "make-ipa.sh not found next to $0 or in $ROOT"
+  [ -n "$IPA_OUT" ] || IPA_OUT="$ROOT/skate3.ipa"
+  # make-ipa.sh refuses outright if it finds game content in the bundle. That
+  # check is the point of packaging through it rather than zipping by hand:
+  # this build tree has the disc staged next to it, and an .ipa is the one
+  # artifact here that is meant to be handed to someone else.
+  "$MAKE_IPA" "$APP" "$IPA_OUT" || die "packaging failed"
+
+  cat <<DONE
+
+  Done.
+
+  Sideload $IPA_OUT with AltStore, SideStore or Sideloadly - each re-signs it
+  with your own Apple ID as it installs.
+
+  It contains no game content. Whoever installs it stages their own copy:
+
+    Finder > iPhone > Files > Skate 3   <- drop the 'game' folder in
+
+DONE
+  exit 0
+fi
+
+# ---------------------------------------------------------------------------
+# 9. Sign and install
 # ---------------------------------------------------------------------------
 if [ "$SKIP_INSTALL" -eq 1 ]; then
   say "Done (--no-install)"

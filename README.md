@@ -3,6 +3,10 @@
 Build the Skate 3 recompilation for iOS **from your own disc image**, on your
 own Mac, signed with your own Apple ID, installed on your own iPhone.
 
+Runs at a **locked 60fps on an iPhone 13 mini** (A15): median frame 16.7ms
+against a 16.67ms budget, 95th percentile 16.8-17.8ms. Anything newer has more
+headroom than that.
+
 ```
 # 1. Get the source (about 1 GB, and slow - it carries the recompiler's data)
 mkdir -p ~/skate3 && cd ~/skate3
@@ -39,11 +43,30 @@ Or download `skate3.ipa` from [Releases](../../releases) and sideload it with
 AltStore, SideStore or Sideloadly. The `.ipa` is unsigned - you sign it with
 your own Apple ID, which is what those tools do.
 
+On a free Apple ID the app stops opening after 7 days and needs refreshing; a
+paid developer account lasts a year. That is Apple's limit on sideloading, not
+this project's.
+
 Then supply the game — see **Supplying the game** below. Without it the app
 will not start.
 
 **Or build it yourself from your own disc image** — the rest of this README.
 Needs a Mac, gives you the recompiler and every knob.
+
+To build an `.ipa` rather than install straight to a phone — to sideload it
+later, or on a machine with no Apple account at all — add `--ipa`:
+
+```
+./skate3-setup.sh --iso ~/Downloads/skate3.iso \
+                  --title-update ~/Downloads/TU_12K2276_000000C000000.00000000000O3 \
+                  --ipa
+```
+
+That needs no signing identity, no team id and no connected device: the archive
+is unsigned by design and whoever sideloads it re-signs it. It lands at
+`~/skate3/skate3.ipa` unless you pass `--ipa-out`. Packaging refuses outright if
+it finds game content in the bundle, so an `.ipa` you hand to someone else
+cannot carry the disc or the title update with it.
 
 ## Supplying the game
 
@@ -67,10 +90,11 @@ you into `~/skate3/game`; copy that folder's contents across.
 shipped patches, and the recompilation is built against TU3 specifically (title
 454108E6, 3.0.0.0 → 3.0.3.0). The game will not run without it.
 
-**The in-app download does not work on iOS** — there is no way to shell out to a
-downloader from inside the app, so it reports an error and asks you to copy the
-file in. Fetch it on a computer instead, from the Xbox Unity archive of Xbox
-360 title updates:
+**The in-app download does not work on iOS** — an iOS app cannot spawn the
+downloader the other platforms shell out to. As of v2.4.0 the installer does not
+offer the button there at all, rather than offering one that always fails; it
+asks for the file instead. Fetch it on a computer, from the Xbox Unity archive
+of Xbox 360 title updates:
 
 ```
 https://xboxunity.net/Resources/Lib/TitleUpdate.php?tuid=21774
