@@ -14,6 +14,14 @@
       "screenshots": [],
       "versions": [
         {
+          "version": "2.4.0",
+          "date": "2026-08-27",
+          "size": 31796747,
+          "downloadURL": "https://github.com/andrewnakas/skate3-ios-setup/releases/download/v2.4.0/skate3.ipa",
+          "minOSVersion": "16.0",
+          "localizedDescription": "A performance menu on Start + Select that shows what is limiting your frame rate, more controller options, and setup that explains how to get the game onto your phone."
+        },
+        {
           "version": "2.3.0",
           "date": "2026-08-26",
           "size": 32996465,
@@ -22,7 +30,10 @@
           "localizedDescription": "Sustained 60fps, on-screen touch controls, and no game content in the bundle."
         }
       ],
-      "appPermissions": { "entitlements": [], "privacy": {} }
+      "appPermissions": {
+        "entitlements": [],
+        "privacy": {}
+      }
     }
   ],
   "news": []
