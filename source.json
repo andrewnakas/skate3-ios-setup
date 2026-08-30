@@ -14,6 +14,14 @@
       "screenshots": [],
       "versions": [
         {
+          "version": "2.5.0",
+          "date": "2026-08-29",
+          "size": 31823931,
+          "downloadURL": "https://github.com/andrewnakas/skate3-ios-setup/releases/download/v2.5.0/skate3.ipa",
+          "minOSVersion": "16.0",
+          "localizedDescription": "The game no longer instruments itself while you play: the frame-timing tools that ran on every frame are off, behind a Diagnostics switch in Settings > System for when a log is needed. The settings menu asks before it closes the game, and its buttons are sized for a thumb rather than a mouse. Adds a Potato preset and a Half draw-distance setting. Also carries every unpublished fix since 2.4.0 - ProMotion iPhones stuck at 30 fps, every iPhone running at half rate, the permanent black screen with audio still playing, and the background-GPU session kill."
+        },
+        {
           "version": "2.4.0",
           "date": "2026-08-27",
           "size": 31797033,
