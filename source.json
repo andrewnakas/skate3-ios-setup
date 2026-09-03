@@ -14,6 +14,14 @@
       "screenshots": [],
       "versions": [
         {
+          "version": "2.6.0",
+          "date": "2026-09-03",
+          "size": 31838531,
+          "downloadURL": "https://github.com/andrewnakas/skate3-ios-setup/releases/download/v2.6.0/skate3.ipa",
+          "minOSVersion": "16.0",
+          "localizedDescription": "Fixes the slowdown on mission completion and replay screens. Finished graphics work was being cleaned up at a fixed 256 items per frame even on the path meant to have no limit, so once a screen produced them faster than that the backlog only grew, every frame paid for it, and the frame rate decayed toward single digits until iOS killed the app. Measured on an iPhone 13 mini: a backlog of 18,000 falling by exactly 255 a frame for seventy frames, one of those cleanups finishing its share in half a millisecond and stopping anyway.\n\nAlso fixes a quit-to-home after switching away and back. GPU work that iOS refuses while an app is in the background keeps failing for a few milliseconds after it returns, and those failures were charged to a budget meant for one occasional error every few seconds - eight of them arrived inside 20 milliseconds and the app reported a lost graphics device.\n\nInstalling the game no longer depends on the system file picker, which does not work under TrollStore or on a jailbreak. Drop your disc image into the Skate 3 folder in Files and it is found automatically. An extracted disc copied across as a folder is now accepted too, instead of being reported as missing.\n\nTexture and mesh budgets are back to the values 2.5.0 shipped."
+        },
+        {
           "version": "2.5.0",
           "date": "2026-08-29",
           "size": 31823931,
