@@ -262,3 +262,11 @@ exists alongside the download.
 
 Building locally is the more conservative option, and it is the one to use if
 you would rather every step happen on your own machine.
+
+---
+
+## Support the project
+
+Really like this software? Feel free to donate to support the project.
+
+[![Donate with PayPal](https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif)](https://www.paypal.com/donate/?hosted_button_id=VN7FLF8AKZR4Y)
