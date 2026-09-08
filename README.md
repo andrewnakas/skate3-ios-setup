@@ -1,5 +1,7 @@
 # skate3-ios-setup
 
+Looking for the ipa? go here https://github.com/andrewnakas/skate3-ios-setup/releases
+
 Build the Skate 3 recompilation for iOS **from your own disc image**, on your
 own Mac, signed with your own Apple ID, installed on your own iPhone.
 
