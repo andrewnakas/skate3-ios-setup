@@ -12,7 +12,7 @@ headroom than that.
 ```
 # 1. Get the source (about 1 GB, and slow - it carries the recompiler's data)
 mkdir -p ~/skate3 && cd ~/skate3
-git clone --branch ios-port --recurse-submodules \
+git clone --branch android --recurse-submodules \
     https://github.com/andrewnakas/SK8-Engine.git skate3recomp-dev
 
 # 2. Get this tool
