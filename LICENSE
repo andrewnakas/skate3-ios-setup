@@ -26,3 +26,21 @@ This license covers the build scripts in this repository only. It grants no
 rights in Skate 3 or any other third-party work. Skate 3 is the property of
 Electronic Arts. This project ships no game code and no game content; users
 build from a copy they already own.
+
+--------------------------------------------------------------------------------
+
+Scope, and other people's work.
+
+The licence above covers the scripts and packaging in this repository only.
+
+It does NOT cover the game. Skate 3 is not distributed here or in the IPA;
+players supply their own copy.
+
+It does NOT cover the code this port is built on. The published IPA is a binary
+distribution that includes work by other authors under their own licences -
+notably darchap (BSD 3-Clause), whose ambient-crowd and movable-prop cuts are in
+the shipped binary, and the upstream Skate 3 recompilation by Alex McHugh.
+
+Those notices are reproduced in THIRD_PARTY_NOTICES.md, which travels with the
+release. Read it as part of this licence rather than beside it.
+

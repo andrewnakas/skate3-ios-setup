@@ -267,6 +267,31 @@ you would rather every step happen on your own machine.
 
 ---
 
+## Built on other people's work
+
+This is a packaging repository. The port it installs stands on work by people
+who are not me, and the ones below are in the shipped binary rather than merely
+nearby:
+
+- **Alex McHugh** — [skate3recomp](https://github.com/mchughalex/skate3recomp) and
+  [rexglue-skate3](https://github.com/mchughalex/rexglue-skate3). The Skate 3
+  recompilation itself. None of this exists without it.
+- **portingpete** — [skate3-recomp](https://github.com/portingpete/skate3-recomp).
+  Early Skate 3 bring-up on ReXGlue.
+- **darchap** — [Skate3-Port](https://github.com/darchap/Skate3-Port). The
+  ambient-crowd and movable-prop cuts in this build are ported from his port,
+  which did them first: the crowds are stopped at the spawn rather than hidden at
+  the draw, so a pedestrian who never exists costs no collision, no voice and no
+  update slot. BSD 3-Clause; his notice is in `THIRD_PARTY_NOTICES.md`.
+- **Buku313** — [Skate3-Mobile](https://github.com/Buku313/Skate3-Mobile). A
+  parallel ARM64 port; the 16 KB page-alignment fix came from there.
+- **ReXGlue SDK** — [rexglue-sdk](https://github.com/rexglue/rexglue-sdk), and
+  **Xenia** (Ben Vanik and contributors), the Xbox 360 research underneath it.
+
+Full licence texts: [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md).
+
+---
+
 ## Support the project
 
 Really like this software? Feel free to donate to support the project.
