@@ -14,17 +14,35 @@ IPA, or anywhere else in this project — players supply their own copy.
 
 <https://github.com/darchap/Skate3-Port>
 
-The ambient-crowd and movable-prop cuts ship in this build because darchap did
-them first. Rather than hiding the meshes at draw time, the three LivingWorld
-census managers are hooked and take the game's own "spawned nothing" exit, so an
-entity that is never created costs no collision, no voice, no engine noise and no
-LivingWorld update slot. That approach is his. Our engine commit that ported it
-(`46eb33c`) says so in its body, and the later "Other Skaters" cut is our own
-extension of the same technique.
+More of this build is darchap's than one feature. Comparing the two trees
+against their common upstream and dating every shared line, **six** of the
+settings this release ships were his first, all of them landing in our tree on
+2026-09-22, the day after the two ports were compared:
 
-These cuts live in the shared engine rather than in any Android-specific file,
+| what ships here | first written in Skate3-Port |
+|---|---|
+| Vegetation cut | 2026-09-13 |
+| Pedestrians & Traffic, Movable Props | 2026-09-13, spawn-source version 2026-09-16 |
+| Hair Detail | 2026-09-14 |
+| Water Effects | 2026-09-14 |
+| FPS Percentiles — the 1% low and p95/p99 | 2026-09-15 |
+
+The crowd cuts are the ones our engine commit (`46eb33c`) credited at the time;
+the other five were not, and this notice is the correction. The percentile code
+in particular is his line for line — the same four-second window, the same
+`max(1, n/100)` slowest-frame set, the same mean-of-the-slowest-1% expressed as
+FPS. Our version adds comments and nothing else.
+
+His approach to the crowd cuts is worth stating because it is the good idea:
+rather than hiding the meshes at draw time, the three LivingWorld census
+managers are hooked and take the game's own "spawned nothing" exit, so an entity
+that is never created costs no collision, no voice, no engine noise and no
+LivingWorld update slot.
+
+These all live in the shared engine rather than in any Android-specific file,
 which is why they are in the iOS binary too. The foreground keep-alive service
-darchap also wrote is Android-only and is **not** part of this build.
+darchap also wrote is Android-only and is **not** part of this build. The "Other
+Skaters" cut is our own extension of his technique.
 
     Copyright (c) 2026 darchap
 

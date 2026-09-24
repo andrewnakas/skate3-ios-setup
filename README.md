@@ -278,11 +278,13 @@ nearby:
   recompilation itself. None of this exists without it.
 - **portingpete** — [skate3-recomp](https://github.com/portingpete/skate3-recomp).
   Early Skate 3 bring-up on ReXGlue.
-- **darchap** — [Skate3-Port](https://github.com/darchap/Skate3-Port). The
-  ambient-crowd and movable-prop cuts in this build are ported from his port,
-  which did them first: the crowds are stopped at the spawn rather than hidden at
-  the draw, so a pedestrian who never exists costs no collision, no voice and no
-  update slot. BSD 3-Clause; his notice is in `THIRD_PARTY_NOTICES.md`.
+- **darchap** — [Skate3-Port](https://github.com/darchap/Skate3-Port). Six of
+  the settings this port ships were his first, ported here on 2026-09-22:
+  Vegetation, Pedestrians & Traffic, Movable Props, Hair Detail, Water Effects
+  and the FPS Percentiles readout. The crowd cuts are the good idea — pedestrians
+  are stopped at the spawn rather than hidden at the draw, so one who never
+  exists costs no collision, no voice and no update slot. BSD 3-Clause; his
+  notice and the dates are in `THIRD_PARTY_NOTICES.md`.
 - **Buku313** — [Skate3-Mobile](https://github.com/Buku313/Skate3-Mobile). A
   parallel ARM64 port; the 16 KB page-alignment fix came from there.
 - **ReXGlue SDK** — [rexglue-sdk](https://github.com/rexglue/rexglue-sdk), and
