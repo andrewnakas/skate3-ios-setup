@@ -14,6 +14,15 @@
       "screenshots": [],
       "versions": [
         {
+          "version": "2.7.1",
+          "date": "2026-09-24",
+          "size": 33581505,
+          "sha256": "109607f9c19e5f98e34e0bda883b07ecfb0a2d81592b332d459c6fdde6f9f7e9",
+          "downloadURL": "https://github.com/andrewnakas/skate3-ios-setup/releases/download/v2.7.1/skate3.ipa",
+          "minOSVersion": "16.0",
+          "localizedDescription": "iOS skipped a release: this carries everything Android got in v0.2.0, and then some.\n\nController remapping. Sixteen inputs - face buttons, bumpers, triggers, stick clicks, D-pad, Back and Start - can each be moved to any other, on the Controls page under Button Mapping. The sticks themselves are not remapped; Swap Sticks and Invert Camera Y already cover that.\n\nThree bugs that were costing frames. Touching the Framerate Cap row silently erased the shipped 60 fps cap on every later launch, because one setting's name was a prefix of another's. A per-packet GPU profiler was running in every build - about 1.7 million clock reads a second - whether or not anyone was profiling. And the ceiling that lets a frame advance more than one simulation period had been compiled for Switch only, so the two platforms whose frames overrun it most never had it.\n\nEleven new settings rows aimed at buying frames back on a phone: 3D Scene Resolution, draw distance down to an eighth, NPC and World update rates, cuts for pedestrians and traffic, movable props and other skaters, vegetation, hair, water, draw batching, 40/45/50 fps caps, and an FPS Percentiles readout that shows the 1% low and p95/p99 next to the average - the average is exactly the statistic that hides a stutter.\n\nFirst launch could previously come up blank, roughly one clean install in ten: parts of a screen drawn once while their shaders were still compiling were skipped and never came back. Shader compilation now stays synchronous through the cold-boot frontend.\n\nNew installs ship at Half draw distance. If you are updating, your existing video settings are kept exactly as they are.\n\nThe crowd and prop cuts are ported from darchap's Skate3-Port, which did them first."
+        },
+        {
           "version": "2.6.3",
           "date": "2026-09-20",
           "size": 33525964,
